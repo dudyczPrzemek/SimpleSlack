@@ -3,6 +3,7 @@ import { CreateChannelRequest } from './models/createChannelRequest';
 import { ChannelService } from './services/channelService';
 import { WebSocketService } from './services/websocketService';
 import { Server } from "ws";
+import { User } from './models/user';
 
 const app: Application = express();
 
@@ -17,8 +18,24 @@ app.use(express.json());
 
 app.post('/channel', (req: Request, res: Response) => {
     const requestBody: CreateChannelRequest = req.body;
-    channelService.create(requestBody.channelName);
-    res.sendStatus(200);
+    const createChannelResponse = channelService.create(requestBody.channelName);
+    res.send(createChannelResponse);
 });
+
+app.put('/channel/:channelId/register', (req: Request, res: Response) => {
+    const channelId = req.params.channelId;
+    const user: User = req.body;
+
+    channelService.registerUserToChannel(channelId, user);
+    res.sendStatus(200);
+})
+
+app.put('/channel/:channelId/deregister', (req: Request, res: Response) => {
+    const channelId = req.params.channelId;
+    const user: User = req.body;
+
+    channelService.deregisterUserFromChannel(channelId, user.login);
+    res.sendStatus(200);
+})
 
 export default app;
