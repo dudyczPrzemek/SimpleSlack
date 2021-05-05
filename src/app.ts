@@ -8,7 +8,7 @@ import { User } from './models/user';
 const app: Application = express();
 
 const channelService = new ChannelService();
-const webSocketService = new WebSocketService();
+const webSocketService = new WebSocketService(channelService);
 
 const defaultPortNumber: number = 8080;
 const wss = new Server({ port: defaultPortNumber });

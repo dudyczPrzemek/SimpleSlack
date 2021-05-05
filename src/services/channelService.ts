@@ -46,4 +46,13 @@ export class ChannelService {
         const index = channel.users.indexOf(user);
         channel.users.splice(index, 1);
     }
+
+    getRegisteredUsersForChannel(channelId: string): User[] {
+        const channel = this.channels.find(ch => ch.id ===  channelId);
+
+        if (!channel) {
+            throw new Error("Channel doesn't exists");
+        }
+        return channel.users;
+    }
 }

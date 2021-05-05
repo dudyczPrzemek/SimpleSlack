@@ -1,4 +1,7 @@
+import { ChannelMessageData } from "./channelMessageData";
+import { SessionMessageData } from "./sessionMessageData";
+
 export interface Message {
-    author: string;
-    content: string;
+    type: string,
+    data: ChannelMessageData | SessionMessageData
 }
