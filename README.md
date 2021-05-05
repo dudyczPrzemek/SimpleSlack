@@ -1,1 +1,1 @@
-# SimpleSlack
+Simple Slack application
