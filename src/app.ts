@@ -17,25 +17,43 @@ wss.on('connection', (ws) => webSocketService.handleConnection(ws, wss));
 app.use(express.json());
 
 app.post('/channel', (req: Request, res: Response) => {
-    const requestBody: CreateChannelRequest = req.body;
-    const createChannelResponse = channelService.create(requestBody.channelName);
-    res.send(createChannelResponse);
+    try {
+        const requestBody: CreateChannelRequest = req.body;
+        const createChannelResponse = channelService.create(requestBody.channelName);
+        res.send(createChannelResponse);
+    } catch(e) {
+        res.status(500).send({
+            message: e.message
+        });
+    }
 });
 
 app.put('/channel/:channelId/register', (req: Request, res: Response) => {
-    const channelId = req.params.channelId;
-    const user: User = req.body;
+    try {
+        const channelId = req.params.channelId;
+        const user: User = req.body;
 
-    channelService.registerUserToChannel(channelId, user);
-    res.sendStatus(200);
+        channelService.registerUserToChannel(channelId, user);
+        res.sendStatus(200);
+    } catch(e) {
+        res.status(500).send({
+            message: e.message
+        });
+    }
 })
 
 app.put('/channel/:channelId/deregister', (req: Request, res: Response) => {
-    const channelId = req.params.channelId;
-    const user: User = req.body;
+    try {
+        const channelId = req.params.channelId;
+        const user: User = req.body;
 
-    channelService.deregisterUserFromChannel(channelId, user.login);
-    res.sendStatus(200);
+        channelService.deregisterUserFromChannel(channelId, user.login);
+        res.sendStatus(200);
+    } catch(e) {
+        res.status(500).send({
+            message: e.message
+        });
+    }
 })
 
 export default app;
